@@ -16,5 +16,5 @@ This is a Flask web application that detects tampering in PAN card images using 
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/your-username/pan_card_tampering.git
+git clone https://github.com/Apooh2004/Pan_card_Tampering
 cd pan_card_tampering
