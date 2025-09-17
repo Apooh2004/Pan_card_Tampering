@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PAN Tamper Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>PAN Card Tampering Detector</h1>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+      <form method="post" enctype="multipart/form-data">
+        <label>Select PAN image (jpg/png) :</label><br>
+        <input type="file" name="pan_image" accept="image/*"><br><br>
+
+        <label>Or provide image URL:</label><br>
+        <input type="url" name="image_url" placeholder="https://example.com/pan.jpg" style="width:100%"><br><br>
+
+        <button type="submit">Analyze</button>
+      </form>
+      <hr>
+      <p>Upload or link an image of the PAN card. The tool runs automated forensic signals (not legal proof).</p>
+    </div>
+  </body>
+</html>

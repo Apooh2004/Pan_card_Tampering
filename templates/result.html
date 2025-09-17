@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Analysis Report</h1>
+      <a href="{{ url_for('index') }}">&larr; Back</a>
+
+      <h2>Verdict: {{ report.verdict }}</h2>
+      <h3>Score: {{ report.final_score }} / 100</h3>
+
+      {% if report.flags %}
+      <h3>Suspicious flags</h3>
+      <ul>
+        {% for f in report.flags %}
+        <li>{{ f }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if report.notes %}
+      <h3>Notes</h3>
+      <ul>
+        {% for n in report.notes %}
+        <li>{{ n }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <h3>Technical details</h3>
+      <ul>
+        <li>Dimensions: {{ report.dimensions.width }} x {{ report.dimensions.height }}</li>
+        <li>SSIM (orig vs recompressed): {{ report.compression_similarity.ssim | default('N/A') }}</li>
+        <li>MSE (orig vs recompressed): {{ report.compression_similarity.mse | default('N/A') }}</li>
+        <li>Laplacian variance: {{ report.laplacian_variance | default('N/A') }}</li>
+        <li>ORB matches: {{ report.orb.matches if report.orb else 'N/A' }}</li>
+      </ul>
+
+      <h3>Images</h3>
+      <div class="imgs">
+        <div>
+          <p>Original</p>
+          <img src="{{ url_for('static', filename=report.input.replace('static/','')) }}" alt="original" />
+        </div>
+
+        {% if report.compression_diff_image %}
+        <div>
+          <p>Compression difference (visual)</p>
+          <img src="{{ url_for('static', filename=report.compression_diff_image.replace('static/','')) }}" />
+        </div>
+        {% endif %}
+
+        {% if report.orb and report.orb.visual %}
+        <div>
+          <p>Copy-move visualization</p>
+          <img src="{{ url_for('static', filename=report.orb.visual.replace('static/','')) }}" />
+        </div>
+        {% endif %}
+      </div>
+
+      <p class="note">This is an automated heuristic — always verify manually or with specialist tools before acting.</p>
+    </div>
+  </body>
+</html>
